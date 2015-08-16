@@ -17,7 +17,7 @@ It could be worse, of course; without `async` / `await`, we'd have to rely on ha
 One of the biggest difficulties however, arising from this enforced adoption of `async` / `await`, is in implementing recovery strategies in response to exceptions arising within an async method.
 <!-- more -->
 For example, this simplified example demonstrates how you might implement the (synchronous) robust save of a small-to-medium data file:
-[sourcecode type="csharp"]
+```csharp
 string storeFilePath = StoreManager.CurrentStoreFilePath;
 
 // Create a backup of the store file, in case something goes wrong with the save.
