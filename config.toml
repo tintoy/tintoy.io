@@ -1,0 +1,7 @@
+baseurl = "http://blog.tintoy.io"
+languageCode = "en-us"
+title = "tin oscillator"
+disqusShortname = "tintoy-blog"
+DateForm = "Jan _2 2015"
+[permalinks]
+	post = "/:year/:month/:title/"

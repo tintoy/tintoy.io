@@ -1,0 +1,23 @@
+{{ partial "header.html" . }}
+
+<link href="/css/prism.css" rel="stylesheet" />
+<script src="/js/prism.js"></script>
+
+<div id="main-content" class="main-content">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+			<!-- Content -->
+			{{ partial "content.html" . }}
+
+			<!-- Comments -->
+			<div style="margin-left: 35px;margin-right: 35px">
+				{{ template "_internal/disqus.html" . }}
+			</div>
+		</div><!-- #content -->
+
+	</div><!-- #primary -->
+	{{ partial "sidebar.html" . }}
+</div><!-- #main-content -->
+
+{{ partial "footer.html" . }}
