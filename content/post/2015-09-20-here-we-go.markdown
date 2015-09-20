@@ -1,0 +1,22 @@
+---
+author: tintoy
+comments: true
+date: 2015-09-20T15:47:11+10:00
+layout: post
+slug: here-we-go
+title: Here we go!
+categories:
+- Open Source
+tags:
+- announce
+---
+I've finally had enough time to start opening up our codebase at work.
+<!--more-->
+Most of our (Dimension Data) stuff can be found here:
+
+* [Dimension Data R&D](https://github.com/DimensionDataCBUSydney/)
+* [Dimension Data Cloud Services Platform](https://github.com/DDCloud)
+
+Now that I'm over the hump, expect a lot more content to follow in short order :-)
+
+PS. I'm particularly proud of our [WebAPI client toolkit](https://github.com/DimensionDataCBUSydney/Watt). If you're building a client-side .NET wrapper for a web API, it's [well-worth a look](https://github.com/DimensionDataCBUSydney/Watt/blob/development/v1.0/Watt.Tests/RequestBuilderContextTests.cs#L27).
