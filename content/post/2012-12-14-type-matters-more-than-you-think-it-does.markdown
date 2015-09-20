@@ -16,13 +16,13 @@ Yes, yes, I know - I do keep hating on [`var`](http://msdn.microsoft.com/en-us/l
 Recently, a colleague replied to my suggestion that C#'s `var` keyword actually decreases readability when used anywhere other than object-creation (eg. `new`), type-coercion (eg. cast / `as`), or anonymous type expressions with, "type matters less than you think it does". I think most of his work has been done in untyped languages (such as Javascript), so I can see where he is coming from. In those languages, typing really doesn't matter that much,
 
 But I think he's wrong about this, when it comes to C#. Using `var` in C# frequently sets up behavioural expectations and intuitions that often turn out to be wrong because C# is a strongly-typed language; a fundamental part of its design philosophy is that typing **does** matter.
-<!-- more -->
+<!--more-->
 
 One example we were discussing is the situation where you want to retrieve a value from one function / property, and immediately pass it to another, without caring what it is, or even what type it is.
 
 The problem is that this approach is that it **does not work** with C#. Even something as simple as method overloading can mess with it:
 
-[code language="csharp"]
+```csharp
 static class Program
 {
 	static void Main()
@@ -49,11 +49,11 @@ static class Program
 		};
 	}
 }
-[/code]
+```
 
 Imagine that the `Counting` class is implemented like this:
 
-[code language="csharp"]
+```csharp
 static class Counting
 {
 	public static int GetItemCount<T>(T[] array)
@@ -88,7 +88,7 @@ static class Counting
 		return queryable.Count(); // Could be server-side eval.
 	}
 }
-[/code]
+```
 
 Why? Because you want to support the same operation on multiple sequence / collection types, but utilise available facilities (such as item count) when present.
 
@@ -96,7 +96,7 @@ Now, it's pretty obvious that the first overload is going to be called. But this
 
 If, some time later, the `GetSomeItems` method was changed like so:
 
-[code language="csharp"]
+```csharp
 static IEnumerable<string> GetSomeItems()
 {
 	yield return "Baa";
@@ -109,13 +109,13 @@ static IEnumerable<string> GetSomeItems()
 	yield return "wool";
 	yield return "?";
 }
-[/code]
+```
 
 Then a different overload of `Counting.GetItemCount` would be used. And you'd never know about it until you either stepped into it or used IntelliSense to examine the call in-place.
 
 Why is this an issue? Consider the implementation of the method that is now being called:
 
-[code language="csharp"]
+```csharp
 public static int GetItemCount<T>(IEnumerable<T> enumerable)
 {
 	if (enumerable == null)
@@ -123,7 +123,7 @@ public static int GetItemCount<T>(IEnumerable<T> enumerable)
 
 	return enumerable.Count();
 }
-[/code]
+```
 
 The LINQ [Count<TSource>(IEnumerable<TSource>)](http://msdn.microsoft.com/en-us/library/bb338038.aspx) extension method has to iterate over the entire sequence in order to calculate the item count.
 
@@ -133,11 +133,11 @@ This is a trivial example, but not particularly unusual, and has fairly serious 
 
 This why I find it tooth-grindingly aggravating when I see code like:
 
-[code language="csharp"]
+```csharp
 int[] numbers = SomeFunction();
 
 int numberCount = numbers.Count();
-[/code]
+```
 
 Arrays have a `Length` property. It's a lot faster than iterating over every element in the array just to find out how many there are.
 
@@ -146,4 +146,3 @@ And if we're talking [IQueryable<T>](http://msdn.microsoft.com/en-us/library/bb3
 And how about if you change a method's numeric return type's precision? Ugh.
 
 So do yourself a favour - don't use C# as if type doesn't matter. Even if it doesn't matter in your favourite untyped language, in C#, it really REALLY does.
-

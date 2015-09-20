@@ -15,7 +15,7 @@ One of the more egregious examples of this is the way they _force_ all I/O to be
 It could be worse, of course; without `async` / `await`, we'd have to rely on hand-crafted continuations, which would make the code just-about unreadable.
 
 One of the biggest difficulties however, arising from this enforced adoption of `async` / `await`, is in implementing recovery strategies in response to exceptions arising within an async method.
-<!-- more -->
+<!--more-->
 For example, this simplified example demonstrates how you might implement the (synchronous) robust save of a small-to-medium data file:
 ```csharp
 string storeFilePath = StoreManager.CurrentStoreFilePath;

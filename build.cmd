@@ -1,2 +1,2 @@
 @echo off
-hugo -D -t twentyfourteen
+hugo -D

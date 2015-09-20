@@ -9,7 +9,7 @@ wordpress_id: 157
 ---
 
 Recently, I've been thinking about ways of tracking dependencies in the [Entity Framework](http://msdn.microsoft.com/en-us/data/ef.aspx).
-<!-- more -->
+<!--more-->
 
 
 ## Problem scope

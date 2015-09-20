@@ -14,7 +14,7 @@ categories:
 
 Out-of-band information includes things like security, session state, and transaction flow. Recently, I've been thinking about various ways of transparently transferring it between a client and a service. This out-of-band data that can be transparently transferred as a logical execution path crosses AppDomain, process, and machine boundaries can be collectively thought of as the logical call context. This is similar to [Remoting](http://msdn.microsoft.com/en-us/library/kwdt6w2k%28v=vs.100%29.aspx)'s [CallContext](http://msdn.microsoft.com/en-us/library/530yxxh3.aspx).
 
-<!-- more -->
+<!--more-->
 
 
 

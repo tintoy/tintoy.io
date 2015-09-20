@@ -23,7 +23,7 @@ After the first `await` statement in your `async` service operation, [OperationC
 
 Interestingly, this problem can be solved relatively easily if you understand how `async` / `await` works under the covers.
 
-<!-- more -->
+<!--more-->
 
 Without going into too much detail just yet, `async` / `await` uses the [TPL](http://msdn.microsoft.com/en-us/library/dd460717.aspx) (specifically [Task](http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx), which uses [SynchronizationContext](http://msdn.microsoft.com/en-us/library/system.threading.synchronizationcontext.aspx)).
 
