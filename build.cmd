@@ -1,2 +1,2 @@
 @echo off
-hugo -D
+hugo

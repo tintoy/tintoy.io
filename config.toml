@@ -3,5 +3,6 @@ languageCode = "en-us"
 title = "tin oscillator"
 disqusShortname = "tintoy-blog"
 DateForm = "Jan _2 2015"
+MetaDataFormat = "yaml"
 [permalinks]
 	post = "/:year/:month/:title/"

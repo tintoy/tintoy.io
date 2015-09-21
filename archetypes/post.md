@@ -1,8 +1,5 @@
-+++
-title = ""
-description = ""
-date = ""
-slug = ""
-tags = []
-categories = []
-+++
+---
+author: tintoy
+layout: post
+comments: true
+---
