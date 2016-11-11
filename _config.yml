@@ -1,0 +1,56 @@
+# Site settings
+title: tin oscillator
+description: >
+  Software development is about sharing ideas; bridging the innner and outer worlds.
+baseurl: ""
+url: "http://blog.tintoy.io"
+# url: "http://localhost:3000" # for local dev
+
+# User settings
+username: tintoy
+user_title: Adam Friedman
+email: tintoy@tintoy.io
+twitter_username: TinOscillator
+github_username:  tintoy
+disqus_username: snoscillator
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+gems:
+  - jekyll-gist
+
+# HTML minification
+compress_html:
+  clippings: all
+  comments: all
+  endings: []
+  profile: false
+
+# Links to include in nav menu
+links:
+  - title: home
+    url: /
+  - title: my posts
+    url: /posts
+  - title: series
+    url: /series
+  - title: tags
+    url: /tags
+  - title: about me
+    url: /about
+
+# Recent projects
+projects:
+  - name: terraform-provider-ddcloud
+    url: https://github.com/DimensionDataResearch/dd-cloud-compute-terraform
+  - name: docker-machine-driver-ddcloud
+    url: https://github.com/DimensionDataResearch/docker-machine-driver-ddcloud
+  - name: Docker.DotNet.Reactive
+    url: https://github.com/tintoy/Docker.DotNet.Reactive
+  - name: HTTPlease
+    url: https://github.com/tintoy/HTTPlease
+
+# Exclude NodeJS stuff
+exclude: ['package.json', 'src', 'node_modules', 'LICENSE']

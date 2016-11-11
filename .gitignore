@@ -1,0 +1,10 @@
+# Jekyll
+# _site is a sub-module
+.sass-cache
+.jekyll-metadata
+
+# NodeJS
+node_modules/
+
+# Mac
+.DS_Store
