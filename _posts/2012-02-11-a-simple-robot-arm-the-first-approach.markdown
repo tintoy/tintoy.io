@@ -22,11 +22,11 @@ A useful technique when trying to solve a problem is to see if there's a simpler
 
 In this case, I figured it would be fairly trivial to make a robot arm that only moves backwards and forwards on the x-axis. As it turns out, all this requires, is for angle B to be exactly twice angle A.
 
-[![Robot Arm Diagram #1](http://tintoy-blog.azurewebsites.net/wp-content/uploads/2012/02/RobotArmDiagram1.jpg)](http://tintoy-blog.azurewebsites.net/wp-content/uploads/2012/02/RobotArmDiagram1.jpg)
+[![Robot Arm Diagram #1](/assets/img/2012/02/RobotArmDiagram1.jpg)](/assets/img/2012/02/RobotArmDiagram1.jpg)
 
 Make sense? How about now?
 
-[![Robot Arm (With Isoscelese Triangles)](http://tintoy-blog.azurewebsites.net/wp-content/uploads/2012/02/Robot-Arm-With-Isoscelese-Triangles.jpg)](http://tintoy-blog.azurewebsites.net/wp-content/uploads/2012/02/Robot-Arm-With-Isoscelese-Triangles.jpg)
+[![Robot Arm (With Isoscelese Triangles)](/assets/img/2012/02/Robot-Arm-With-Isoscelese-Triangles.jpg)](/assets/img/2012/02/Robot-Arm-With-Isoscelese-Triangles.jpg)
 
 That's right; the lines I drew are parallel, so the alternate angles are equal. Double it for the entire triangle, Bob's your uncle.
 

@@ -13,7 +13,7 @@
 </a>
 <aside id="sidebar">
   <div id="topmenu">
-  {% assign filename = page.url | replace_first: '/', '' | replace: '/', '-'  | replace: '.html', '.md' %}
+  {% assign filename = page.url | replace_first: '/', '' | replace: '/', '-'  | replace: '.html', '' %}
     <ul>
       <li><span>1</span></li>
       <li><span> {{page.url}}</span></li>

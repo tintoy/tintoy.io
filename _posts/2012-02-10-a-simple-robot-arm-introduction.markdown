@@ -31,7 +31,7 @@ Determine the region that is reachable with the arm, and devise an algorithm for
 Here's a quick sketch of the arm (as I imagine it to be). Both arm segments are the same length, L, and the first and second joints have corresponding angles A and B:
 
 
-[![Robot Arm Diagram #1](http://tintoy-blog.azurewebsites.net/wp-content/uploads/2012/02/RobotArmDiagram1-300x225.jpg)](http://tintoy-blog.azurewebsites.net/wp-content/uploads/2012/02/RobotArmDiagram1.jpg)
+[![Robot Arm Diagram #1](/assets/img/2012/02/RobotArmDiagram1-300x225.jpg)](/assets/img/2012/02/RobotArmDiagram1.jpg)
 
 
 I'd recently been covering trigonometry, over at [Khan Academy](http://khanacademy.org/), so I figured it wouldn't be hard to calculate the angles involved.
