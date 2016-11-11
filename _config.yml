@@ -3,8 +3,8 @@ title: tin oscillator
 description: >
   Software development is about sharing ideas; bridging the innner and outer worlds.
 baseurl: ""
-# url: "http://blog.tintoy.io"
-url: "http://localhost:3000" # for local dev
+url: "http://blog.tintoy.io"
+# url: "http://localhost:3000" # for local dev
 
 # User settings
 username: tintoy
