@@ -46,6 +46,7 @@
         case "/":
           $('#fade').trigger('click');
           $("#search").trigger('click');
+          e.preventDefault();
           break;
         default:
           if (/[a-z=]/.test(e.key)) {
