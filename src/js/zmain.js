@@ -34,41 +34,23 @@
           $('#fade').trigger('click');
           break;
       }
-    }
-    //sidebar active
-    if($('#sidebar').hasClass('slide')){
-      switch(e.key) {
-        case "1":
-          $("#sidebar ul:first-child li:first-child a").trigger('click');
-          break;
-        case "2":
-          $("#sidebar ul:first-child li:nth-child(2) a").trigger('click');
-          break;
-        case "3":
-          $("#sidebar ul:first-child li:nth-child(3) a").trigger('click');
-          break;
-        case "4":
-          $("#sidebar ul:first-child li:nth-child(4) a").trigger('click');
-          break;
-        case "5":
-          $("#sidebar ul:first-child li:nth-child(5) a").trigger('click');
-          break;
-        case "g":
-          $("#sidebar ul:nth-child(2) li:first-child a").trigger('click');
-          break;
-        case "s":
-          $('#fade').trigger('click');
-          $("#search").trigger('click');
-          break;
-         case "t":
-          $("#sidebar ul:nth-child(2) li:nth-child(3) a").trigger('click');
-          break;
-      }
-    }
-    if($('.search-form').hasClass('active')){
+    } else {
       switch(e.key) {
         case "Esc":
           $('.icon-remove-sign').trigger('click');
+          break;
+      }
+    }
+    if($('#sidebar').hasClass('slide')){
+      switch(e.key) {
+        case "/":
+          $('#fade').trigger('click');
+          $("#search").trigger('click');
+          break;
+        default:
+          if (/[a-z=]/.test(e.key)) {
+            $("#sidebar ul li[data-shortcut='" + e.key +"'] a").trigger('click');
+          }
           break;
       }
     }

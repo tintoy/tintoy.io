@@ -31,14 +31,19 @@ compress_html:
 # Links to include in nav menu
 links:
   - title: home
+    shortcut: h
     url: /
-  - title: my posts
+  - title: posts
+    shortcut: p
     url: /posts
-  - title: series
+  - title: posts by series
+    shortcut: =
     url: /series
   - title: tags
+    shortcut: t
     url: /tags
-  - title: about me
+  - title: about
+    shortcut: a
     url: /about
 
 # Recent projects
@@ -51,6 +56,10 @@ projects:
     url: https://github.com/tintoy/Docker.DotNet.Reactive
   - name: HTTPlease
     url: https://github.com/tintoy/HTTPlease
+  - name: seqlog
+    url: https://github.com/tintoy/seqlog
+  - name: rx-akkadotnet
+    url: https://github.com/tintoy/rx-akkadotnet
 
 # Exclude NodeJS stuff
 exclude: ['package.json', 'src', 'gulpfile.js', 'node_modules', 'LICENSE']

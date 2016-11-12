@@ -2,20 +2,32 @@
 layout: minimal
 title: "About me"
 permalink: /about/index.html
-description: "Some description about Victor Igor..."
+description: "About Adam Friedman"
 ---
 
 <img itemprop="image" class="img-rounded about_perfil" src="{{ "/assets/img/profile.jpg" | prepend: site.baseurl }}" alt="Adam Friedman">
 
-<h2>Projects</h2>
+<h2>Me</h2>
+<div class="aboutme">
+	<ul class="about">
+		<li>Principal Architect (Innovation) @ Dimension Data</li>
+		<li>Hiking</li>
+		<li>Designing and building software</li>
+		<li>MTB</li>
+		<li>Writing electronic music</li>
+		<li>Kayaking</li>
+		<li>Fridge poetry</li>
+	</ul>
+</div>
 
+<h2>Projects</h2>
 <div class="aboutme">
 	<ul class="recent">
 		{% for project in site.projects %}
-	    	<li><a href="{{ project.url}}"><h2 class="post-title" itemprop="name">{{ project.name }}</h2></a></li>
+	    	<li><a href="{{ project.url}}"><span itemprop="name">{{ project.name }}</span></a></li>
 	    {% endfor %}
 	</ul>
 </div>
 <div style="text-align: right; font-size: small; margin-right: 1em">
-	<a href="https://github.com/victorvoid/space-jekyll-template">Space</a> theme by <a href="https://github.com/victorvoid">@victorvoid</a>
+	Based on the <a href="https://github.com/victorvoid/space-jekyll-template">Space</a> theme by <a href="https://github.com/victorvoid">@victorvoid</a>
 </div>
