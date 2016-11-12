@@ -3,7 +3,7 @@ author: tintoy
 comments: true
 date: 2012-02-10 09:32:13+10:00
 layout: post
-slug: hello-world-2
+slug: ldroll-re-how
 title: L'droll re-how
 wordpress_id: 61
 categories:

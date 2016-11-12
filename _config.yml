@@ -9,7 +9,7 @@ url: "http://blog.tintoy.io"
 # User settings
 username: tintoy
 user_title: Adam Friedman
-email: tintoy@tintoy.io
+email: blog@tintoy.io
 twitter_username: TinOscillator
 github_username:  tintoy
 disqus_username: tintoy-blog
@@ -17,7 +17,7 @@ disqus_username: tintoy-blog
 # Build settings
 markdown: kramdown
 highlighter: rouge
-permalink: /:title/
+permalink: /:year/:month/:title/
 gems:
   - jekyll-gist
 
@@ -53,4 +53,4 @@ projects:
     url: https://github.com/tintoy/HTTPlease
 
 # Exclude NodeJS stuff
-exclude: ['package.json', 'src', 'node_modules', 'LICENSE']
+exclude: ['package.json', 'src', 'gulpfile.js', 'node_modules', 'LICENSE']
