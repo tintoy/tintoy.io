@@ -14,7 +14,7 @@ A couple of months ago, I started writing a [provider](https://github.com/Dimens
 
 The goal was to get Terraform talking to [Dimension Data CloudControl](https://docs.mcp-services.net/display/DEV/Welcome+to+the+CloudControl+documentation+portal), the control plane for our cloud compute facilities (the Managed Cloud Platform, or MCP).
 
-As it turns out, you need to put a fair bit of thought into the design of your driver. This post is code-free, but in the following post we'll be diving into the Terraform driver model, with plenty of code examples.
+As it turns out, you need to put a fair bit of thought into the design of your driver.
 
 ## Terraform's conceptual model
 
@@ -23,6 +23,16 @@ In my opinion one of the best design choices made by Hashicorp, when they create
 Terraform does not attempt to make the configuration for each of its providers look the same (unlike, say, [Apache Libcloud](https://libcloud.apache.org/)). Instead, its focus is on providing a consistent model for _resource life-cycle_.
 
 So while it _can't_ provide you with a single configuration that you can deploy to either Azure or AWS, you _can_ create 2 configurations that will both exhibit the same behaviour (at a high level, at least).
+
+And the resource model is fairly simple - each resource implements the same 4-5 operations:
+
+* Create (create the resource)
+* Read (read the target resource's current state, and use it to update Terraform's state data)
+* Update (update the resource based on the current Terraform state data)
+* Delete (delete the resource)
+* Exists (check if the target resource currently exists)
+
+Terraform compares existing and target resource state, and decides which operations to invoke (and which resources to invoke them for).
 
 ## CloudControl's conceptual model
 
@@ -74,17 +84,17 @@ Delegates request handling to the nodes in a VIP pool.
 
 Many CloudControl resources are directly mapped to Terraform resource types:
 
-* `ddcloud_networkdomain` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/networkdomain.md" target="_blank">docs</a>)
-* `ddcloud_vlan` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/vlan.md" target="_blank">docs</a>)
-* `ddcloud_nat` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/nat.md" target="_blank">docs</a>)
-* `ddcloud_firewall_rule` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/firewall_rule.md" target="_blank">docs</a>)
-* `ddcloud_address_list` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/address_list.md" target="_blank">docs</a>)
-* `ddcloud_port_list` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/port_list.md" target="_blank">docs</a>)
-* `ddcloud_server` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/server.md" target="_blank">docs</a>)
-* `ddcloud_server_anti_affinity` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/server_anti_affinity.md" target="_blank">docs</a>)
-* `ddcloud_vip_node` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/vip_node.md" target="_blank">docs</a>)
-* `ddcloud_vip_pool` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/vip_pool.md" target="_blank">docs</a>)
-* `ddcloud_virtual_listener` (<a href="https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/virtual_listener.md" target="_blank">docs</a>)
+* `ddcloud_networkdomain` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/networkdomain.md))
+* `ddcloud_vlan` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/vlan.md))
+* `ddcloud_nat` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/nat.md))
+* `ddcloud_firewall_rule` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/firewall_rule.md))
+* `ddcloud_address_list` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/address_list.md))
+* `ddcloud_port_list` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/port_list.md))
+* `ddcloud_server` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/server.md))
+* `ddcloud_server_anti_affinity` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/server_anti_affinity.md))
+* `ddcloud_vip_node` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/vip_node.md))
+* `ddcloud_vip_pool` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/vip_pool.md))
+* `ddcloud_virtual_listener` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/resource_types/virtual_listener.md))
 
 Note that while a server is primarily mapped to the `ddcloud_server` resource type, some of its constituent components are represented separately (as I'll explain below).
 
@@ -102,11 +112,11 @@ Although it is possible to model a VIP node's membership of a VIP pool via a pro
 
 ### Wholly-subsidiary resources
 
-Unlike a server's virtual disks, its virtual network adapters have no immutable properties. Given Terraform's diff/apply behaviour, this is problematic from a state-management perspective because although each adapter has a unique Id, this Id is assigned by CloudControl and will not be present in the configuration (only in the persisted state data).
+Unlike a server's virtual disks (which can each be uniquely identifier by their SCSI unit Id), its virtual network adapters have no immutable properties (i.e. all NIC properties can change at any time). Given Terraform's diff/apply behaviour, this is problematic from a state-management perspective because although each adapter has a unique Id, this Id is assigned by CloudControl and will not be present in the configuration (only in the persisted state data).
 
 So if I have a set of 4 adapters, and a property changes on one of them, we have no way of knowing which one was changed (since none of the properties in the configuration map are sufficient to uniquely identify a specific network adapter).
 
-We therefore decided to model additional (non-primary) network adapters via the `ddcloud_server_nic` resource type. It's slightly awkward, but Hashicorp are still considering ways to improve nesting of subsidiary resources.
+We therefore decided to model additional (non-primary) network adapters via the `ddcloud_server_nic` resource type. It's slightly awkward, but Hashicorp are [still considering](https://github.com/hashicorp/terraform/issues/2275) ways to improve nesting of subsidiary resources.
 
 ### Implicit resources
 
@@ -116,6 +126,19 @@ So while we could implement a `ddcloud_public_ip_block` resource type, it wouldn
 
 Our Terraform provider therefore allocates public IP blocks when needed (i.e. a public IP is required, and no free ones are currently available in the target network domain) and frees those blocks when it deletes their parent network domain.
 
+## Data sources
+
+Some resources are expensive to create, or cannot be programmatically created at all. For example an Amazon Machine Image (AMI) has an Id, but you wouldn't use Terraform to create one. Nevertheless, you need to look up the AMI identifier in order to deploy an EC2 instance (VM). An Azure storage account is also often painfully slow to create. And sometimes you simply want Terraform to be aware of a resource without managing it.
+
+Terraform data-sources are like read-only resources. Instead of the Create/Read/Update/Delete operations supported by resources, they only support Read (which looks up the entity using one or more well-known properties and then expose the rest of its properties for use in a Terraform configuration).
+
+For CloudControl, both network domains and VLANs can sometimes be expensive to create (in terms of time, mainly). When I'm prototyping, I just want to be able to create and destroy servers and their associated network configuration and so it's useful to have data sources representing the network domain and VLAN(s).
+
+For now, we support just 2 data sources (but others will be added over time):
+
+* `ddcloud_networkdomain` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/datasource_types/networkdomain.md))
+* `ddcloud_vlan` ([docs](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform/blob/development/v1.0/docs/datasource_types/vlan.md))
+
 ---
 
-Ok, it's late, I'm off to bed. We'll pick this up again tomorrow.
+Tune in next time for part 2 - the Terraform plugin model.
