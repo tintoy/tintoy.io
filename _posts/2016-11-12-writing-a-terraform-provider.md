@@ -10,6 +10,8 @@ categories:
   - Go
 ---
 
+Part 1|[Part 2](../writing-a-terraform-provider-2)
+
 A couple of months ago, I started writing a [provider](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform) for [Terraform](https://terraform.io) (a declarative configuration-management tool for infrastructure).
 
 The goal was to get Terraform talking to [Dimension Data CloudControl](https://docs.mcp-services.net/display/DEV/Welcome+to+the+CloudControl+documentation+portal), the control plane for our cloud compute facilities (the Managed Cloud Platform, or MCP).
@@ -141,4 +143,4 @@ For now, we support just 2 data sources (but others will be added over time):
 
 ---
 
-Tune in next time for part 2 - the Terraform plugin model.
+Tune in next time for part 2 - the Terraform extensibility model.
