@@ -10,7 +10,7 @@ categories:
   - Go
 ---
 
-Part 1|[Part 2](../writing-a-terraform-provider-2)
+Part 1|[Part 2](../writing-a-terraform-provider-2)|[Part 3](../writing-a-terraform-provider-3)
 
 A couple of months ago, I started writing a [provider](https://github.com/DimensionDataResearch/dd-cloud-compute-terraform) for [Terraform](https://terraform.io) (a declarative configuration-management tool for infrastructure).
 

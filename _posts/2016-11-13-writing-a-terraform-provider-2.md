@@ -10,7 +10,7 @@ categories:
   - Go
 ---
 
-[Part 1](../writing-a-terraform-provider)|Part 2
+[Part 1](../writing-a-terraform-provider)|Part 2|[Part 3](../writing-a-terraform-provider-3)
 
 ## The Terraform extensibility model
 
