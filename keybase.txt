@@ -1,0 +1,54 @@
+==================================================================
+https://keybase.io/tintoy
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://blog.tintoy.io
+  * I am tintoy (https://keybase.io/tintoy) on keybase.
+  * I have a public key ASCtkhApTC5ZH0ENfuZ5tIQJuKb39_Eb_eP2JtOKjcncUAo
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0120ad9210294c2e591f410d7ee679b48409b8a6f7f7f11bfde3f626d38a8dc9dc500a",
+            "host": "keybase.io",
+            "kid": "0120ad9210294c2e591f410d7ee679b48409b8a6f7f7f11bfde3f626d38a8dc9dc500a",
+            "uid": "46d90780152dac449ab5a8b6661c9619",
+            "username": "tintoy"
+        },
+        "service": {
+            "hostname": "blog.tintoy.io",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.18"
+    },
+    "ctime": 1484254040,
+    "expire_in": 504576000,
+    "merkle_root": {
+        "ctime": 1484253985,
+        "hash": "9b16325557e2afa058886d7cd25f48ae17760a7d5a8113be60f9954761edb742955f3c91d1ba48bc4c0ae049180637719bdc86bac0f4ce104fa518abac928fcc",
+        "seqno": 797096
+    },
+    "prev": "267630551e984b5520c7914bfeefed494427e4ca0ca7576b0c954d2087450200",
+    "seqno": 9,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgrZIQKUwuWR9BDX7mebSECbim9/fxG/3j9ibTio3J3FAKp3BheWxvYWTFAvN7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwYWQ5MjEwMjk0YzJlNTkxZjQxMGQ3ZWU2NzliNDg0MDliOGE2ZjdmN2YxMWJmZGUzZjYyNmQzOGE4ZGM5ZGM1MDBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwYWQ5MjEwMjk0YzJlNTkxZjQxMGQ3ZWU2NzliNDg0MDliOGE2ZjdmN2YxMWJmZGUzZjYyNmQzOGE4ZGM5ZGM1MDBhIiwidWlkIjoiNDZkOTA3ODAxNTJkYWM0NDlhYjVhOGI2NjYxYzk2MTkiLCJ1c2VybmFtZSI6InRpbnRveSJ9LCJzZXJ2aWNlIjp7Imhvc3RuYW1lIjoiYmxvZy50aW50b3kuaW8iLCJwcm90b2NvbCI6Imh0dHA6In0sInR5cGUiOiJ3ZWJfc2VydmljZV9iaW5kaW5nIiwidmVyc2lvbiI6MX0sImNsaWVudCI6eyJuYW1lIjoia2V5YmFzZS5pbyBnbyBjbGllbnQiLCJ2ZXJzaW9uIjoiMS4wLjE4In0sImN0aW1lIjoxNDg0MjU0MDQwLCJleHBpcmVfaW4iOjUwNDU3NjAwMCwibWVya2xlX3Jvb3QiOnsiY3RpbWUiOjE0ODQyNTM5ODUsImhhc2giOiI5YjE2MzI1NTU3ZTJhZmEwNTg4ODZkN2NkMjVmNDhhZTE3NzYwYTdkNWE4MTEzYmU2MGY5OTU0NzYxZWRiNzQyOTU1ZjNjOTFkMWJhNDhiYzRjMGFlMDQ5MTgwNjM3NzE5YmRjODZiYWMwZjRjZTEwNGZhNTE4YWJhYzkyOGZjYyIsInNlcW5vIjo3OTcwOTZ9LCJwcmV2IjoiMjY3NjMwNTUxZTk4NGI1NTIwYzc5MTRiZmVlZmVkNDk0NDI3ZTRjYTBjYTc1NzZiMGM5NTRkMjA4NzQ1MDIwMCIsInNlcW5vIjo5LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQKJjAr4+5LwbMZ3uQVdtU30g2rI4fpReHnY8xzFH/BJHgFmIUvRo6/7/1VGL4isllNrVY5d+NQTZjtkkLizHZAqoc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCBb/OD5laAdrD6tMXHPLJUF5x64FQfR8B3WmluAuGMIqKN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/tintoy
+
+==================================================================
