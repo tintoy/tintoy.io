@@ -139,8 +139,26 @@ If you want to include custom type definitions or formatting directives, a manif
 The tooling for .NET Core (and, consequently, PowerShell Core) module authors hasn't quite stabilised yet, so these instructions may not be good after RC4.
 Assuming you are using the [RC4 tooling](https://github.com/dotnet/core/blob/master/release-notes/rc4-download.md), this is all you have to do in order to get your module working:
 
-1. `mkdir TestModule; cd TestModule`.
-2. `dotnet new lib`.
+1. `mkdir TestModule; cd TestModule`
+2. `dotnet new lib`
+3. `dotnet new nugetconfig`
+
+Open `nuget.config`, and make the following changes:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+ <packageSources>
+    <!-- .NET Core nightlies (required by Powershell Core) -->
+    <add key="netcore-nightlies" value="https://dotnet.myget.org/F/dotnet-core/api/v3/index.json" />
+    <!-- Powershell Core -->
+    <add key="powershell-core" value="https://powershell.myget.org/F/powershell-core/api/v3/index.json" />
+
+    <!-- Attributes used by the help generator -->
+    <add key="PSReptile" value="https://www.myget.org/F/ps-reptile/api/v3/index.json"/>
+ </packageSources>
+</configuration>
+```
 
 Open `TestModule.csproj`.
   
