@@ -20,6 +20,7 @@ highlighter: rouge
 permalink: /:year/:month/:title/
 gems:
   - jekyll-gist
+  - jekyll-compose
 
 # HTML minification
 compress_html:

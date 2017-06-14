@@ -16,14 +16,27 @@ var messages = {
 };
 
 var jekyllCommand = (/^win/.test(process.platform)) ? 'jekyll.bat' : 'jekyll';
+var jekyllBuildParams = ["build"];
 
 /**
  * Build the Jekyll Site
  */
 gulp.task('jekyll-build', function (done) {
 	browserSync.notify(messages.jekyllBuild);
-	return cp.spawn(jekyllCommand, ['build'], {stdio: 'inherit'})
+
+	return cp.spawn(jekyllCommand, jekyllBuildParams, {stdio: 'inherit'})
 		.on('close', done);
+});
+
+/**
+ * Build the Jekyll site (with draft posts).
+ */
+gulp.task('jekyll-build-drafts', [
+	'enable-drafts',
+	'jekyll-build'
+]);
+gulp.task('enable-drafts', function() {
+	jekyllBuildParams.push("--drafts");
 });
 
 /**
@@ -92,6 +105,12 @@ gulp.task('watch', function () {
 	gulp.watch('src/img/**/*.{jpg,png,gif}', ['imagemin']);
 	gulp.watch(['*.html', '_includes/*.html', '_layouts/*.html', '_posts/*'], ['jekyll-rebuild']);
 });
+
+/**
+ * Watch stylus files for changes & recompile
+ * Watch html/md files (including drafts), run jekyll & reload BrowserSync
+ */
+gulp.task('watch-drafts', ['enable-drafts', 'js', 'stylus', 'browser-sync', 'watch']);
 
 /**
  * Default task, running just `gulp` will compile the sass,
