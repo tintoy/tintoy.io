@@ -12,21 +12,27 @@ var gulp        = require('gulp'),
 	cp          = require('child_process');
 
 var messages = {
-	jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
+	jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build',
+	reloading: '<span style="color: grey">Reloading...</span>'
 };
 
 var jekyllCommand = (/^win/.test(process.platform)) ? 'jekyll.bat' : 'jekyll';
-var jekyllBuildParams = ["build"];
+var jekyllBuildParams = ["build", "--incremental"];
 
 /**
  * Build the Jekyll Site
  */
 gulp.task('jekyll-build', function (done) {
-	browserSync.notify(messages.jekyllBuild);
-
 	return cp.spawn(jekyllCommand, jekyllBuildParams, {stdio: 'inherit'})
-		.on('close', done);
+		.on('close', function()
+		{
+			done();
+		});
 });
+gulp.task('enable-watch', function() {
+	jekyllBuildParams.push("--watch");
+});
+
 
 /**
  * Build the Jekyll site (with draft posts).
@@ -40,10 +46,28 @@ gulp.task('enable-drafts', function() {
 });
 
 /**
+ * Do page reload
+ */
+gulp.task('jekyll-reload', function (done) {
+	browserSync.reload();
+
+	done();
+});
+
+/**
  * Rebuild Jekyll & do page reload
  */
-gulp.task('jekyll-rebuild', ['jekyll-build'], function () {
-	browserSync.reload();
+gulp.task('jekyll-rebuild', function(done) {
+	browserSync.notify(messages.jekyllBuild);
+	
+	return cp.spawn(jekyllCommand, jekyllBuildParams, {stdio: 'inherit'})
+		.on('close', function()
+		{
+			browserSync.notify(messages.reloading);
+			browserSync.reload();
+			
+			done();
+		});
 });
 
 /**
@@ -103,7 +127,7 @@ gulp.task('watch', function () {
 	gulp.watch('src/styl/**/*.styl', ['stylus']);
 	gulp.watch('src/js/**/*.js', ['js']);
 	gulp.watch('src/img/**/*.{jpg,png,gif}', ['imagemin']);
-	gulp.watch(['*.html', '_includes/*.html', '_layouts/*.html', '_posts/*'], ['jekyll-rebuild']);
+	gulp.watch(['*.html', '_includes/*.html', '_layouts/*.html', '_posts/*', '_drafts/*'], ['jekyll-rebuild']);
 });
 
 /**

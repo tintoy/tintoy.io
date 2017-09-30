@@ -28,14 +28,31 @@
         max-width 100%
         margin rem(30px) auto
         display block
-    p, h1, h2, h3, h4, h5,ul,ol, .tags, iframe
+    p, h1, h2, h3, h4, h5, .tags, iframe
         max-width rem(800px)
         padding 0 rem(20px)
-        margin 0 auto rem(30px)
+        margin rem(20px) auto rem(30px)
         mainFont(300)
         font-size rem(18px)
         line-height 2
         letter-spacing 0.01rem
+        +above(cut)
+            font-size rem(20px)
+    
+    ul, ol
+        max-width rem(800px)
+        padding 0 rem(20px)
+        
+        margin-left: auto
+        margin-right: auto
+        margin-top: 0
+        margin-bottom: 0
+
+        mainFont(300)
+        font-size rem(18px)
+        line-height 2
+        letter-spacing 0.01rem
+        
         +above(cut)
             font-size rem(20px)
     h5
