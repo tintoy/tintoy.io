@@ -17,7 +17,7 @@ Many modern editors have features to make life easier when working code, markup,
 
 ![VSCode intellisense in action](https://code.visualstudio.com/images/intellisense_intellisense.gif)
 
-Many of us use it every day, but have you ever wondered what's going on behind the scenes to make that happen?
+Many of us use it every day, but have you ever wondered what's going on behind the scenes to make it happen?
 <!-- more -->
 
 ## First stop: types of Intellisense
