@@ -63,4 +63,4 @@ projects:
     url: https://github.com/tintoy/rx-akkadotnet
 
 # Exclude NodeJS stuff
-exclude: ['package.json', 'src', 'gulpfile.js', 'node_modules', 'LICENSE']
+exclude: ['package.json', 'src', 'gulpfile.js', 'node_modules', 'LICENSE', 'vendor']
