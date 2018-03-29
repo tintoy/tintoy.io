@@ -15,7 +15,7 @@ categories:
 
 Many modern editors have features to make life easier when working code, markup, and other types of structured text. Collectively, Microsoft calls these features "Intellisense" and they include features such as quick-info and parameter-help tooltips, completions, go-to-definition, and many more.
 
-![VSCode intellisense in action](../assets/img/2017/intellisense-in-action.gif)
+![VSCode intellisense in action](/assets/img/2017/intellisense-in-action.gif)
 
 Many of us use it every day, but have you ever wondered what's going on behind the scenes to make it happen?
 <!-- more -->
