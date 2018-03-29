@@ -2,6 +2,7 @@
 # _site is a sub-module
 .sass-cache
 .jekyll-metadata
+_site/
 
 # NodeJS
 node_modules/
