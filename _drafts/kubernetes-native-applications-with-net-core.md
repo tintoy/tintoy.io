@@ -1,12 +1,12 @@
 ---
 layout: post
 title: Kubernetes-native applications with .NET Core
-draft: true
 author: tintoy
 comments: true
 slug: kubernetes-native-applications-with-netcore
 categories:
   - .NET Core
+  - ASP.NET Core
   - Kubernetes
 ---
 
