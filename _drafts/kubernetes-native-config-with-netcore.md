@@ -10,9 +10,7 @@ categories:
   - Kubernetes
 ---
 
-.NET Core was designed from the ground up as a cloud-native platform for building applications.
-
-Traditionally, containerised applications have gotten their configuration from environment variables. But since containers (including their environment variables) are effectively immutable, changing the configuration requires that the container is re-created.
+Traditionally, containerised applications have gotten their configuration from environment variables or configuration files mounted into the container. But since containers (including their environment variables and mounts) are effectively immutable, changing the configuration requires that the container is re-created.
 
 For static configuration, this is fine, but for dynamic configuration you're better off using something like [Consul K/V](https://www.consul.io/api/kv.html) or a database for your configuration data.
 
@@ -32,7 +30,75 @@ A [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure
 
 #### Secret
 
-A [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) is similar to a `ConfigMap`, but its data is Base64-encoded; if you want to store a certificate or binary key material then Secrets have got you covered (their contents can also be mounted into containers as files).
+A [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) is similar to a `ConfigMap`, but its data is Base64-encoded; if you want to store a certificate or other non-textual key material then Secrets have got you covered.
+
+### Supplying app configuration
+
+The key / value pairs that comprise ConfigMaps and Secrets are most commonly used to populate either environment variables or the content of files mounted into containers.
+
+For example, here's a ConfigMap and a partial `Pod` specification that propagates its keys / values to the pod's container as environment variables.
+
+```yaml
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: demo-config
+  namespace: default
+data:
+  key1: 'Hello, World'
+  key2: 'Goodbye, Moon'
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: demo-pod
+  namespace: default
+spec:
+  containers:
+    - name: container1
+      env:
+        - name: GREETING
+          valueFrom:
+            configMapKeyRef:
+              name: demo-config
+              key: key1
+        - name: FAREWELL
+          valueFrom:
+            configMapKeyRef:
+              name: demo-config
+              key: key2
+```
+
+And here's an example of mounting a Secret's keys / values as files in a container:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: demo-secret
+type: Opaque
+data:
+  certificate.pem: YWRtaW4=
+  private.key: MWYyZDFlMmU2N2Rm
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: demo-pod
+  namespace: default
+spec:
+  containers:
+    - name: container1
+      volumeMounts:
+        - name: ssl
+          mountPath: /etc/ssl
+  volumes:
+    - name: ssl
+      secret:
+        secretName: demo-config
+```
 
 ### Microsoft.Extensions.Configuration
 
@@ -42,22 +108,9 @@ Out of the box, you already have providers that support sourcing configuration f
 
 ### KubeClient.Extensions.Configuration
 
-As part of my new `KubeClient` library, there are now configuration providers that use a Kubernetes `ConfigMap` or `Secret` as the source for configuration data. If the `ConfigMap` or `Secret` is modified after the application is started, the application configuration will be automatically updated.
+The [KubeClient](https://github.com/tintoy/dotnet-kube-client/) library supports configuration providers that use a Kubernetes `ConfigMap` or `Secret` as the source for configuration data. Optionally, if the `ConfigMap` or `Secret` is modified after the application is started then the application configuration will be automatically updated.
 
-#### An example ConfigMap
-
-```yaml
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: config-from-configmap
-  namespace: default
-data:
-  Key1: One
-  Key2: Two
-```
-
-#### Using the ConfigMap for configuration
+#### Using a ConfigMap for configuration
 
 ```csharp
 KubeClientOptions kubeClientOptions = Config.Load().ToKubeClientOptions();
@@ -69,14 +122,11 @@ IConfiguration configuration = new ConfigurationBuilder()
     )
     .Build();
 
-Console.WriteLine("Got configuration:");
-foreach (var item in configuration.AsEnumerable())
-{
-    Console.WriteLine("\t'{0}' = '{1}'",
-      item.Key,
-      item.Value
-    );
-}
+string greeting = configuration["key1"];
+Console.WriteLine("Greeting: {0}", greeting);
+
+string farewell = configuration["key2"];
+Console.WriteLine("Farewell: {0}", farewell);
 ```
 
 #### Automatically reloading
@@ -100,14 +150,11 @@ reloadToken.RegisterChangeCallback(OnConfigChanged, state: null);
 
 void OnConfigChanged(object state)
 {
-    Console.WriteLine("Got changed configuration:");
-    foreach (var item in configuration.AsEnumerable())
-    {
-        Console.WriteLine("\t'{0}' = '{1}'",
-          item.Key,
-          item.Value
-        );
-    }
+    string greeting = configuration["key1"];
+    Console.WriteLine("Updated greeting: {0}", greeting);
+
+    string farewell = configuration["key2"];
+    Console.WriteLine("Updated farewell: {0}", farewell);
 
     // Reload tokens only work once, then you need a new one.
     reloadToken = configuration.GetReloadToken();
@@ -115,13 +162,79 @@ void OnConfigChanged(object state)
 }
 ```
 
-### Putting it all together
+### IOptions\<T\>
 
-Let's create a new ASP.NET Core application:
+Once you have your configuration (e.g. in an ASP.NET Core `Startup` class), you can configure the dependency-injection system to make typed options available to represent it.
 
-```bash
-dotnet new mvc -o ./KConfigWebApp -f netcoreapp2.0
-cd ./KConfigWebApp
+So if you define an options class:
+
+```csharp
+public class MyAppOptions
+{
+    public string Greeting { get; set; }
+    public string Farewell { get; set; }
+}
 ```
 
-**TODO: Document process for creating sample**
+Then configure your configuration providers:
+
+```csharp
+WebHost.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration(
+        configuration => configuration.AddKubeConfigMap(
+            clientOptions: KubeClientOptions.FromPodServiceAccount(),
+            configMapName: "demo-config",
+            kubeNamespace: "default",
+            reloadOnChange: true
+        )
+    )
+    .UseStartup<Startup>()
+```
+
+Then configure your service container:
+
+```csharp
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddOptions();
+        services.Configure<MyAppOptions>(Configuration);
+    }
+}
+```
+
+Finally, inject the options into a controller:
+
+```csharp
+[Route("api/v1/greetings")]
+public class GreetingController
+{
+    public GreetingController(IOptions<MyAppOptions> options)
+    {
+        Options = options.Value;
+    }
+
+    MyAppOptions Options { get; }
+
+    [HttpGet("hello-goodbye")]
+    public IActionResult HelloGoodbye()
+    {
+        return Ok(new
+        {
+            Greeting = Options.Greeting,
+            Farewell = Options.Farewell
+        });
+    }
+}
+```
+
+If you call this web API before and after changing the ConfigMap, you will see that the application options change automatically.
