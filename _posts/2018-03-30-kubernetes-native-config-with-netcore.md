@@ -30,13 +30,13 @@ A [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure
 
 #### Secret
 
-A [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) is similar to a `ConfigMap`, but its data is Base64-encoded; if you want to store a certificate or other non-textual key material then Secrets have got you covered.
+A [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) is similar to a ConfigMap, but (among other things) its data is Base64-encoded; if you want to store a certificate or other non-textual key material then Secrets have got you covered.
 
 ### Supplying app configuration
 
 The key / value pairs that comprise ConfigMaps and Secrets are most commonly used to populate either environment variables or the content of files mounted into containers.
 
-For example, here's a ConfigMap and a partial `Pod` specification that propagates its keys / values to the pod's container as environment variables.
+For example, here's a ConfigMap and a partial Pod specification that propagates its keys / values to the pod's container as environment variables.
 
 ```yaml
 ---
@@ -58,12 +58,12 @@ spec:
   containers:
     - name: container1
       env:
-        - name: GREETING
+        - name: GREETING # = 'Hello, World'
           valueFrom:
             configMapKeyRef:
               name: demo-config
               key: key1
-        - name: FAREWELL
+        - name: FAREWELL # = 'Goodbye, Moon'
           valueFrom:
             configMapKeyRef:
               name: demo-config
@@ -80,8 +80,8 @@ metadata:
   name: demo-secret
 type: Opaque
 data:
-  certificate.pem: YWRtaW4=
-  private.key: MWYyZDFlMmU2N2Rm
+  certificate.pem: YWRtaW4=     # Mounted below at /etc/ssl/certificate.pem
+  private.key: MWYyZDFlMmU2N2Rm # Mounted below at /etc/ssl/private.key
 ---
 kind: Pod
 apiVersion: v1
@@ -93,7 +93,7 @@ spec:
     - name: container1
       volumeMounts:
         - name: ssl
-          mountPath: /etc/ssl
+          mountPath: /etc/ssl # Keys used as file names, values used as file contents
   volumes:
     - name: ssl
       secret:
