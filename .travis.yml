@@ -9,6 +9,9 @@ before_script:
 
 script: ./ci-build.sh
 
+git:
+   depth: 9999999
+
 branches:
   only:
   - master
