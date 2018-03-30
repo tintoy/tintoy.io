@@ -5,9 +5,9 @@ author: tintoy
 comments: true
 slug: kubernetes-native-config-with-netcore
 categories:
+  - Kubernetes
   - .NET Core
   - ASP.NET Core
-  - Kubernetes
 ---
 
 Traditionally, containerised applications have gotten their configuration from environment variables or configuration files mounted into the container. But since containers (including their environment variables and mounts) are effectively immutable, changing the configuration requires that the container is re-created.
