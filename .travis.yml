@@ -1,9 +1,8 @@
 language: ruby
+sudo: false
 
 rvm:
 - 2.3.3
-
-sudo: false
 
 before_script:
  - chmod +x ./ci-build.sh
