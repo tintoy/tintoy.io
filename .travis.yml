@@ -25,6 +25,8 @@ deploy:
   provider: azure_web_apps
   on: master
 
+  verbose: true
+
   site: tintoy-blog
   username: tintoy-blog
   password:
